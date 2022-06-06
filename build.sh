@@ -1,0 +1,1 @@
+g++ -std=c++11 -lpthread -pthread main.cpp utils.cpp  Scanner.cpp -o main -I "."  && sudo ./main
