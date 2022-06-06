@@ -137,7 +137,7 @@ void ReceiveThread()
     { 
         int re = recvfrom(sock, (char*)buffer, sizeof(buffer), 0,
         &addr, (socklen_t*)&size);
-        if(ip_ptr->ip_dst.s_addr != inet_addr("192.168.1.116"))//不是发给自己的或者是127.0.0.1
+        if(ip_ptr->ip_dst.s_addr != inet_addr(my_ip.data()))//不是发给自己的或者是127.0.0.1
         {
             continue;
         }

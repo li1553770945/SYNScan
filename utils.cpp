@@ -3,6 +3,27 @@
 #include <vector>
 using namespace std;
 
+vector <string> split_string(string str,char sep)
+{
+    vector <string> result;
+    uint32_t start = 0;
+    for(size_t i = 0;i<str.length();i++)
+    {
+        if(str[i]==sep)
+        {
+            if(start!=i)
+            {
+                result.push_back(str.substr(start,i-start));
+            }
+            start = i + 1;
+        }
+    }
+    if(start <= str.length())
+    {
+        result.push_back(str.substr(start,str.length()-start+1));
+    }
+    return result;
+}
 
 uint32_t StringToIp(string str)
 {
