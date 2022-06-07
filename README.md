@@ -20,7 +20,18 @@ TCP端口扫描有三种方法：
 
 ## 使用方法
 
-直接运行build.sh,会自动编译并运行，需要输入一次密码。
+修改main.cpp中的
+
+```cpp
+string my_ip = "192.168.1.116";
+string des_host = "192.168.1.1";
+int mask = 24;
+int min_port = 80;
+int max_port = 8000;
+```
+如果需要扫描ip范围，则main中调用ScanRange(),如果要扫描特定ip，则main中调用ScanOneIp()。
+
+然后直接运行build.sh,会自动编译并运行，需要输入一次密码。
 
 ## 步骤
 

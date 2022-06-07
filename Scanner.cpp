@@ -62,7 +62,7 @@ void SendOne(int sock,uint32_t ip,int port)
     ip_ptr->ip_dst = dst_ip.sin_addr;
   
     tcp_ptr->dest = dst_ip.sin_port;
-    tcp_ptr->seq = seq;
+    tcp_ptr->seq = seq++;
     tcp_ptr->ack_seq = 0;
     tcp_ptr->doff = 5;  
     tcp_ptr->syn = 1;
@@ -98,6 +98,7 @@ void SendOne(int sock,uint32_t ip,int port)
 }
 void ScanThread(uint32_t ip,int min_port,int max_port)
 {
+    ips.insert(ip);
     int sock = socket(AF_INET, SOCK_RAW, IPPROTO_TCP);
     int on = 1; 
     int opt =  setsockopt(sock,IPPROTO_IP,IP_HDRINCL,&on,sizeof(on));
@@ -161,17 +162,13 @@ void ReceiveThread()
 }
 void Scan(string ip,int mask,int min_port,int max_port)
 {
-    uint32_t ip_uint = StringToIp(ip);
+    uint32_t ip_uint = htonl(*(u_long*)gethostbyname(ip.data())->h_addr);
     mask = 32-mask;
     ip_uint = ip_uint & ( (~0) << (mask-1) );
     int ip_num = (1<<mask);
     thread *ts = new thread [ip_num+1];
     
-    for(int i=0;i< ip_num;i++)
-    {
-        uint32_t ip0 = ip_uint  | i;
-        ips.insert(ip0);
-    }
+
 
     for(int i=0;i< ip_num;i++)
     {
